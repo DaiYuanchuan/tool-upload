@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义 分片、缓存 文件路径 分片上传、断点续传 文件</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style type="text/css">
+
+    .webuploader-container {
+        position: relative;
+    }
+
+    .webuploader-element-invisible {
+        position: absolute !important;
+        clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+        clip: rect(1px, 1px, 1px, 1px);
+    }
+
+    .webuploader-pick {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        /*background: #00b7ee;*/
+        padding: 5px 5px;
+        color: #fff;
+        text-align: center;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .webuploader-pick-hover {
+        /*background: #00a2d4;*/
+    }
+
+    .webuploader-pick-disable {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    #picker {
+        width: 86px;
+        height: 40px;
+        display: inline-block;
+        line-height: 1.428571429;
+        vertical-align: middle;
+        margin: 0 12px 0 0;
+    }
+
+    .webuploader-domain {
+        top: 0px !important;
+        left: 0px !important;
+    }
+</style>
+</head>
+<body>
+
+
+<div id="uploader" class="container">
+    <pre>
+    封装 web-uploader 上传控件 分片上传、断点续传大文件
+    由于上传控件自身问题 暂停和开始 存在一定程度BUG
+    适用于没有文件 暂停和开始的 业务需求
+    </pre>
+    <!--用来存放文件信息-->
+    <div id="thelist" class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">文件列表</div>
+            <table class="table table-striped table-bordered" id="uploadTable">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>文件名称</th>
+                    <th>文件大小</th>
+                    <th>上传状态</th>
+                    <th>上传进度</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="panel-footer">
+                <div id="picker" class="btn btn-info">选择文件</div>
+                <button id="btn" class="btn btn-default">开始上传</button>
+                <button id="stop" class="btn btn-default">停止上传</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploader-doc"></div>
+
+</div>
+
+<script src="https://static-page-1255518771.cos.ap-shanghai.myqcloud.com/common/js/jquery/jquery-3.4.1.min.js"></script>
+
+<!-- 上传控件所需js -->
+<script src="https://qcloud-1256166828.cos.ap-shanghai.myqcloud.com/script/javascript/uploader/web-uploader/0.1.6/web-uploader.min.js"></script>
+<script src="https://qcloud-1256166828.cos.ap-shanghai.myqcloud.com/script/javascript/uploader/web-uploader/uploader.js"></script>
+<script src="js/demo1.js"></script>
+
+<script>
+
+    $("#btn").on('click', function () {
+        if (uploader.getFiles().length > 0) {
+            $(".up-start").data('type', 'stop');
+            $(".up-start").text('暂停');
+            uploader.upload();
+        }
+        return false;
+    });
+
+
+
+    $("#stop").on('click', function () {
+        if (uploader.getFiles().length > 0) {
+            $(".up-start").data('type', 'start');
+            $(".up-start").text('开始');
+            uploader.stop(true);
+        }
+        return false;
+    });
+
+    $("#uploader-doc").load("https://qcloud-1256166828.cos.ap-shanghai.myqcloud.com/script/javascript/uploader/web-uploader/uploader-doc.html")
+
+</script>
+</body>
+</html>

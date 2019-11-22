@@ -1,0 +1,22 @@
+server:
+  connectionTimeout: 18000000
+  port: 8089
+  servlet:
+    context-path: /
+  tomcat.basedir: log/temp
+  tomcat.uri-encoding: UTF-8
+
+spring:
+  servlet:
+    multipart:
+      #设置单个上传文件的大小 20GB
+      max-file-size: 20480Mb
+      #设置单次请求的文件上传的总大小 20GB
+      max-request-size: 20480Mb
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  resources:
+    static-locations: classpath:log/uploader/,file:log/uploader/
