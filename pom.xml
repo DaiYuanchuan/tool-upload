@@ -89,7 +89,7 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
-      <version>1.2.20</version>
+      <version>1.2.25</version>
     </dependency>
     <!-- 阿里 解析 json 工具 end -->
 
