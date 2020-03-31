@@ -25,11 +25,10 @@
 ```xml
 <dependency>
   <groupId>cn.novelweb</groupId>
-  <artifactId>tool</artifactId>
-  <version>1.1</version>
+  <artifactId>tool-core</artifactId>
+  <version>1.3.3</version>
 </dependency>
 ```
-静态资源文件中的 LocalUpload.html 为工具包的javadoc文档
 
 ## 上传中:
 ![](https://qcloud-1256166828.cos.ap-shanghai.myqcloud.com/wp-content/uploads/2019/11/20191105092506.png)<br>

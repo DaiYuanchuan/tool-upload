@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  * @program: toolupload
- * @description: 上传文件、妙传、断点续传样例-demo
+ * @description: 本地上传文件、妙传、断点续传样例-demo
  * @author: Dai Yuanchuan
  * @create: 2019-10-30 08:24
  **/
