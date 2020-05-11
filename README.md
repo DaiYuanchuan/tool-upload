@@ -20,13 +20,13 @@
 使用 RandomAccessFile(随机访问文件) 类随机指定位置写入文件,类似于其他方案的合成分片
 检验分片文件是否全部上传完成，重命名缓存文件
 
-## 基于工具类包1.3.3版本
+## 基于工具类包1.3.6版本
 
 ```xml
 <dependency>
   <groupId>cn.novelweb</groupId>
   <artifactId>tool-core</artifactId>
-  <version>1.3.3</version>
+  <version>1.3.6</version>
 </dependency>
 ```
 
