@@ -5,6 +5,7 @@ import cn.novelweb.tool.http.Result;
 import cn.novelweb.tool.upload.file.FileInfo;
 import cn.novelweb.tool.upload.local.LocalUpload;
 import cn.novelweb.tool.upload.local.pojo.UploadFileParam;
+import cn.novelweb.tool.upload.qiniu.QiNiuUpload;
 import com.alibaba.fastjson.JSONArray;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -12,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @program: toolupload
@@ -145,5 +148,31 @@ public class UploadDemoController {
                 .md5(md5)
                 .build();
         return LocalUpload.fragmentFileUploader(uploadFileParam, param.getChunkSize(), request);
+    }
+
+    // ================================================== 七牛云存储配置 =================================================
+
+    /**
+     * 设置七牛云配置信息
+     */
+    static {
+        // ak
+        QiNiuUpload.accessKey = "accessKey";
+        // sk
+        QiNiuUpload.secretKey = "secretKey";
+        // 存储桶
+        QiNiuUpload.bucket = "bucket";
+        // 地区：华东
+        QiNiuUpload.region = QiNiuUpload.huaDong;
+    }
+
+    @ApiOperation(value = "获取文件上传token", notes = "参数:文件名称")
+    @GetMapping(value = "/qi-niu/token", produces = "application/json;charset=UTF-8")
+    public Result<String> getUploadToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setContentType("application/json;charset=UTF-8");
+
+        // 获取一个 3600s 时效的七牛云上传token
+        return Result.ok(QiNiuUpload.getUploadToken());
     }
 }
