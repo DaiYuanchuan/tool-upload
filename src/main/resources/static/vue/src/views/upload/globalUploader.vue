@@ -2,6 +2,7 @@
   <div id="global-uploader">
     <uploader
       :options="simpleUploader.options"
+      :key="simpleUploader.uploaderKey"
       @file-success="onFileSuccess"
       @file-complete="onFileComplete"
       @file-progress="onFileProgress"
@@ -101,6 +102,8 @@ export default {
        * 初始化组件 vue-simple-uploader
        */
       simpleUploader: {
+        // 这个用来刷新组件--解决不刷新页面连续上传的缓存上传数据（注：每次上传时，强制这个值进行更改---根据自己的实际情况重新赋值）
+        uploaderKey: new Date().getTime(),
         // 组件实例化时传入的配置项
         options: {
           // 目标上传 URL，可以是字符串也可以是函数，如果是函数的话，则会传入 Uploader.File 实例、当前块 Uploader.Chunk 以及是否是测试模式
@@ -134,16 +137,16 @@ export default {
           // 是否测试每个块是否在服务端已经上传了，主要用来实现秒传、跨浏览器上传等
           testChunks: false,
           // 服务器分片校验函数 秒传及断点续传的基础(true:不用传 false:需要传)
-          checkChunkUploadedByResponse: (chunk, message) => {
-            // 这里根据实际业务来 用来判断哪些片已经上传过了 不用再重复上传了
-            return false
-          },
+          // checkChunkUploadedByResponse: (chunk, message) => {
+          // 这里根据实际业务来 用来判断哪些片已经上传过了 不用再重复上传了
+          // return false
+          // },
           // 可选的函数，每个块在测试以及上传前会被调用，参数就是当前上传块实例 Uploader.Chunk，注意在这个函数中你需要调用当前上传块实例的 preprocessFinished 方法
           preprocess: null,
           // 可覆盖默认的生成文件唯一标示的函数
           generateUniqueIdentifier: null,
           // 最大自动失败重试上传次数，值可以是任意正整数，如果是 undefined 则代表无限次
-          maxChunkRetries: 0,
+          maxChunkRetries: 2,
           // 重试间隔，值可以是任意正整数，如果是 null 则代表立即重试
           chunkRetryInterval: null,
           // 进度回调间隔
@@ -170,6 +173,13 @@ export default {
         },
         // 是否选择文件后自动开始上传
         autoStart: true,
+        statusText: {
+          success: '成功',
+          error: '失败',
+          uploading: '上传中',
+          paused: '暂停',
+          waiting: '等待'
+        },
         // 用于转换文件上传状态文本映射对象
         fileStatusText: function (status, response) {
           // 第一个 status 为状态，第二个为响应内容

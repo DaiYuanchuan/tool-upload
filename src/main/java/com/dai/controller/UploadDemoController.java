@@ -1,5 +1,6 @@
 package com.dai.controller;
 
+import cn.hutool.crypto.SecureUtil;
 import cn.novelweb.tool.http.Result;
 import cn.novelweb.tool.upload.file.FileInfo;
 import cn.novelweb.tool.upload.local.LocalUpload;
@@ -19,6 +20,7 @@ import java.io.File;
  * @author: Dai Yuanchuan
  * @create: 2019-10-30 08:24
  **/
+@CrossOrigin
 @RestController
 @Slf4j
 @RequestMapping(value = "/uploader")
@@ -132,6 +134,7 @@ public class UploadDemoController {
     @ApiOperation(value = "文件上传", notes = "参数:文件[<span style=\"color: red;\">大文件请获取上传token直接对接到七牛云服务器</span>]")
     @PostMapping(value = "slicing-upload", consumes = "multipart/*", headers = "content-type=multipart/form-data", produces = "application/json;charset=UTF-8")
     public synchronized Result<FileInfo> slicingUploader(UploadParam param, HttpServletRequest request) {
+        String md5 = SecureUtil.md5(param.getFilename());
         UploadFileParam uploadFileParam = UploadFileParam.builder()
                 .id(param.getIdentifier())
                 .chunks(param.getTotalChunks())
@@ -139,7 +142,7 @@ public class UploadDemoController {
                 .size(param.getCurrentChunkSize())
                 .name(param.getFilename())
                 .file(param.getFile())
-                .md5(param.getIdentifier())
+                .md5(md5)
                 .build();
         return LocalUpload.fragmentFileUploader(uploadFileParam, param.getChunkSize(), request);
     }

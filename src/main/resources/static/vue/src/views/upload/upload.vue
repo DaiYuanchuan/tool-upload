@@ -75,7 +75,7 @@ export default {
       uploader_key: new Date().getTime(),
       options: {
         // SpringBoot后台接收文件夹数据的接口
-        target: 'http://192.168.32.1:8089/uploader/local-upload',
+        target: 'http://192.168.32.1:8089/uploader/slicing-upload',
         // 是否分片-不分片
         testChunks: false,
         query: this.query,
@@ -83,7 +83,7 @@ export default {
           Authorization: 'authorization'
         },
         // 真正上传的时候使用的 HTTP 方法
-        uploadMethod: 'PUT'
+        uploadMethod: 'POST'
       },
       attrs: {
         // 接受的文件类型，形如['.png', '.jpg', '.jpeg', '.gif', '.bmp'...] 这里我封装了一下
