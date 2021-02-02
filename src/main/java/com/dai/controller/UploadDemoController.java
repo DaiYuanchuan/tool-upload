@@ -1,8 +1,12 @@
 package com.dai.controller;
 
 import cn.novelweb.tool.http.Result;
+import cn.novelweb.tool.upload.file.FileInfo;
 import cn.novelweb.tool.upload.local.LocalUpload;
 import cn.novelweb.tool.upload.local.pojo.UploadFileParam;
+import com.alibaba.fastjson.JSONArray;
+import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,5 +118,29 @@ public class UploadDemoController {
             e.printStackTrace();
             return Result.error("上传失败");
         }
+    }
+
+    // ================================================== vue 分片上传 ==================================================
+
+    @SneakyThrows
+    @RequestMapping(value = "slicing-upload", method = RequestMethod.GET)
+    public synchronized Result<JSONArray> checkSlicingUploader(UploadParam param) {
+        return LocalUpload.checkFileMd5(param.getIdentifier(), param.getFilename());
+    }
+
+    @SneakyThrows
+    @ApiOperation(value = "文件上传", notes = "参数:文件[<span style=\"color: red;\">大文件请获取上传token直接对接到七牛云服务器</span>]")
+    @PostMapping(value = "slicing-upload", consumes = "multipart/*", headers = "content-type=multipart/form-data", produces = "application/json;charset=UTF-8")
+    public synchronized Result<FileInfo> slicingUploader(UploadParam param, HttpServletRequest request) {
+        UploadFileParam uploadFileParam = UploadFileParam.builder()
+                .id(param.getIdentifier())
+                .chunks(param.getTotalChunks())
+                .chunk(param.getChunkNumber() - 1)
+                .size(param.getCurrentChunkSize())
+                .name(param.getFilename())
+                .file(param.getFile())
+                .md5(param.getIdentifier())
+                .build();
+        return LocalUpload.fragmentFileUploader(uploadFileParam, param.getChunkSize(), request);
     }
 }
