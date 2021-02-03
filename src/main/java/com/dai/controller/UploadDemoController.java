@@ -138,6 +138,10 @@ public class UploadDemoController {
     @PostMapping(value = "slicing-upload", consumes = "multipart/*", headers = "content-type=multipart/form-data", produces = "application/json;charset=UTF-8")
     public synchronized Result<FileInfo> slicingUploader(UploadParam param, HttpServletRequest request) {
         String md5 = SecureUtil.md5(param.getFilename());
+        File file = new File(LocalUpload.defaultPath + File.separatorChar + md5 + File.separatorChar + param.getFilename());
+        if (file.exists()) {
+            return Result.ok();
+        }
         UploadFileParam uploadFileParam = UploadFileParam.builder()
                 .id(param.getIdentifier())
                 .chunks(param.getTotalChunks())

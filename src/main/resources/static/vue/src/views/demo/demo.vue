@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>上传demo</h2>
-    <button @click="changeData()">改变子组件的data</button>
     <button @click="upload()">上传文件</button>
     <button @click="uploadFolder()">上传文件夹</button>
     <global-uploader ref="globalUploader"></global-uploader>
@@ -31,6 +30,7 @@ export default {
   },
   methods: {
     changeData () {
+      // 可以通过子组件的 ref 属性改变子组件的内容
       this.$refs.globalUploader.setAttrs({
         type: 'image/*',
         accept: 'image/*'
