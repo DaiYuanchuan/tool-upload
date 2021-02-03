@@ -156,9 +156,6 @@ public class UploadDemoController {
 
     // ================================================== 七牛云存储配置 =================================================
 
-    /**
-     * 设置七牛云配置信息
-     */
     static {
         // ak
         QiNiuUpload.accessKey = "accessKey";
@@ -176,7 +173,7 @@ public class UploadDemoController {
         request.setCharacterEncoding("utf-8");
         response.setContentType("application/json;charset=UTF-8");
 
-        // 获取一个 3600s 时效的七牛云上传token
-        return Result.ok(QiNiuUpload.getUploadToken());
+        // 获取一个 86400s 时效的七牛云上传token (不传值 默认为 3600s)
+        return Result.ok(QiNiuUpload.getUploadToken(86400L));
     }
 }
