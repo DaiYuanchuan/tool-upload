@@ -107,7 +107,7 @@ export default {
         // 组件实例化时传入的配置项
         options: {
           // 目标上传 URL，可以是字符串也可以是函数，如果是函数的话，则会传入 Uploader.File 实例、当前块 Uploader.Chunk 以及是否是测试模式
-          target: 'http://192.168.32.1:8089/uploader/slicing-upload',
+          target: 'http://127.0.0.1:8089/uploader/slicing-upload',
           // 单文件上传。覆盖式，如果选择了多个会把之前的取消掉
           singleFile: false,
           // 分块时按照该值来分，最后一个上传块的大小是可能是大于等于1倍的这个值但是小于两倍的这个值大小
@@ -138,7 +138,7 @@ export default {
           testChunks: false,
           // 服务器分片校验函数 秒传及断点续传的基础(true:不用传 false:需要传)
           // checkChunkUploadedByResponse: (chunk, message) => {
-          // 这里根据实际业务来 用来判断哪些片已经上传过了 不用再重复上传了
+          // 这里根据实际业务来 用来判断哪些片已经上传过了 不用再重复上传了 [这里可以用来写断点续传！！！]
           // return false
           // },
           // 可选的函数，每个块在测试以及上传前会被调用，参数就是当前上传块实例 Uploader.Chunk，注意在这个函数中你需要调用当前上传块实例的 preprocessFinished 方法

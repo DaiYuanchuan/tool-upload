@@ -36,7 +36,7 @@ export default {
         accept: 'image/*'
       })
       this.$refs.globalUploader.setOptions({
-        target: 'http://192.168.32.1:8089/uploader/local-upload'
+        target: 'http://127.0.0.1:8089/uploader/local-upload'
       })
     },
     upload () {

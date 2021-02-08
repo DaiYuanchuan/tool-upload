@@ -75,7 +75,7 @@ export default {
       uploader_key: new Date().getTime(),
       options: {
         // SpringBoot后台接收文件夹数据的接口
-        target: 'http://192.168.32.1:8089/uploader/slicing-upload',
+        target: 'http://127.0.0.1:8089/uploader/slicing-upload',
         // 是否分片-不分片
         testChunks: false,
         query: this.query,
